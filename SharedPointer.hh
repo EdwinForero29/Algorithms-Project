@@ -1,5 +1,6 @@
 #ifndef SharedPointer_hh
 #define SharedPointer_hh 
+#include<iostream>
 
 template<typename dataType>
 class SharedPointer{
@@ -12,6 +13,8 @@ SharedPointer<dataType>& operator=(nullptr_t);
 void reset(dataType p) noexcept;
 void swap(SharedPointer<dataType>& p);
 dataType *get();
+int use_count();
+bool unique();
 operator bool();
 
 private:
@@ -79,7 +82,7 @@ template<typename dataType>
 void swap(SharedPointer<dataType>& a, SharedPointer<dataType>& b) noexcept;
 
 template<typename dataType, typename... Arguments>
-SharedPointer<dataType> make_Shared(Arguments&&... arguments);
+SharedPointer<dataType> make_shared(Arguments&&... arguments);
 
 #include"SharedPointer.cc"
 
