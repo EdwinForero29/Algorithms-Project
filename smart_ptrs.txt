@@ -1,0 +1,129 @@
+Homemade class of smart pointers
+
+[Wiki] In computer science, a smart pointer is an abstract data type that 
+simulates a pointer while providing added features, such as automatic memory 
+management or bounds checking. Such features are intended to reduce bugs 
+caused by the misuse of pointers, while retaining efficiency. Smart pointers 
+typically keep track of the memory they point to.
+
+In order to successfully go through this project the recommended steps are:
+
+Idea
+    The idea is to implement a sophisticated interface to efficiently control 
+    the allocation, use, and discard of memory allocated dynamically via 
+    pointers. The implemented interface should resemble as much as possible 
+    the use of ordinary pointers in C++, that is, an easy-to-use interface.
+
+    Basically it’s a question of designing a single, non-trivial class and 
+    overloading pointer related operators.
+
+    A smart pointer type shall, basically, have the same features as an 
+    ordinary pointer type – initialization, copying, assignment, dereferencing 
+    (with *) and indirection (using ->). In certain aspects we want a smart 
+    pointer to have other and/or better characteristics, e.g. that a smart 
+    pointer always is initialized and the memory for the referred object is 
+    always deallocated automatically. Other important aspects concerns copying 
+    and assignment and these may be implemented according to different models. 
+    Typing, to be able to use constant and non-constant smart pointers of a 
+    certain type in the same way as ordinary pointers are other aspects.
+
+    There is a number of implementation models and optimizing techniques for 
+    smart pointers. The most known are deep copy (copy-on-create/assign),
+    destructive copy, reference counting, reference linking, and copy on 
+    write (COW).
+
+    It should also be possible to initialize a smart pointer to a nullptr, 
+    that is, there should be a default constructor doing this, or it should 
+    be allowed to explicitly initialize with a null pointer constant, nullptr.
+
+
+Basics
+    Understand concepts: smart pointer, ownership assignment, reference 
+        counting, memory leaks, dangling pointers, circular references, 
+        nullptr
+    Have good knowledge of how unique and shared pointers work in C++
+    Get familiar with the library <memory> via nontrivial examples
+    How to implement some of the above mentioned concepts
+    What is the minimal number of instance variables?
+
+
+Specs
+    The implemented data structure should have some basic features:
+    Overload all pointer-arithmetic related operators
+    Overload insertion operator [Does it make sense to overload extraction?]
+    A template parameter telling whether the pointer is unique or shared
+    Include reference counting or ownership assignment, depending on pointer
+    Perform bounds checking for accessors and modifiers
+    Delete constructors or make them unavailable when necessary
+    Use move semantics when appropriate
+    Handling exceptions the right way
+
+
+Basic functionality 
+    Initialization: constructor taking a raw pointer to an object, also 
+        nullptr (default)
+    Copying: copy constructor and copy assignment operator
+    Destruction: deallocate the memory of the referred object 
+    Dereferencing operator, operator*
+    Indirection operator, operator-> (compile error, if the referred object 
+        is not of class type)
+    Destruction: It shall not be possible to delete a smart pointer 
+        (compile error)
+    Null pointer test: if(s_p){}, if(!s_p){}, if(s_p == nullptr){}, 
+        if(s_p != nullptr){}
+    Comparison: compare two smart pointers of the same type; compare a smart 
+        pointer and raw pointer of the same type
+    Function calls: passing by value and by reference should be allowed. Same 
+        for returning by value and by reference
+
+
+Extras
+    Implement first for primitive types, then for objects (time permitting)
+    Use library <cassert> and perform unit testing using proper test suite(s)
+
+
+Implementation
+    Here is a simple interface (non templated) for smart pointers that can 
+    refer to int's. This class can be used as a starting point for the full 
+    implementation, which must be templated.
+
+    class smart_pointer { 
+    public: 
+	smart_pointer(); 
+	smart_pointer(int*); 
+	smart_pointer(const smart_pointer&); 
+	smart_pointer(smart_pointer&&); 
+	~smart_pointer(); 
+	smart_pointer& operator=(const smart_pointer&); 
+	smart_pointer& operator=(smart_pointer&&); 
+	int& operator*(); 
+	int* operator->();
+        // relational operators
+        // operator! (return true if smart ptr is a null ptr, otherwise false)
+        // operator!= (compare, with respect to equality and inequality)
+        // operator== (compare, with respect to equality and inequality)
+    private:
+        // you decide what to include here...
+        // there should be at least one raw pointer here, right?
+        void copy(const smart_pointer&);
+    };
+
+    The types of calls that this particular interface should support are
+
+    smart_pointer s_p1{ new int{1} };
+    smart_pointer s_p2{ s_p1 };
+    sp1 = sp2;                        // Copy assignment 
+
+    int* ptr = new int{2};
+    smart_pointer sp{ ptr };
+    delete ptr;                       // WRONG! destructor should do this! 
+    delete sp;                        // NOT allowed!
+
+    if (sp) ...                      // Null pointer test
+    if (!sp) ...                     // Negated null pointer test
+    if (sp == nullptr) { }           // Explicit test for null pointer
+    if (nullptr == sp) { }
+    if (sp != nullptr) { }
+    if (nullptr != sp) { }
+    if (sp1 == sp2) { }
+    if (sp1 != sp2) { }
