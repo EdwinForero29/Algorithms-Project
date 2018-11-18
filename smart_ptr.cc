@@ -17,12 +17,12 @@ smart_ptr<dataType>::smart_ptr(const smart_ptr<dataType>& s){
 
 template<typename dataType>
 smart_ptr<dataType>::smart_ptr(smart_ptr<dataType>&& s){
-    s->pointer = this->pointer;
+    copy(s);
 }
 
 template<typename dataType>
 smart_ptr<dataType>::~smart_ptr(){
-    delete pointer;
+    pointer = nullptr;
 }
 
 template<typename dataType>
@@ -33,7 +33,7 @@ smart_ptr<dataType>& smart_ptr<dataType>::operator=(const smart_ptr<dataType>& s
 
 template<typename dataType>
 smart_ptr<dataType>& smart_ptr<dataType>::operator=(smart_ptr<dataType>&& s){
-    this->pointer = s->pointer;
+    copy(s);
     return *this;
 }
 
@@ -53,13 +53,13 @@ bool smart_ptr<dataType>::operator!(){
 }
 
 template<typename dataType>
-bool smart_ptr<dataType>::operator==(const smart_prt<dataType>& s){
-    return this->pointer == s->pointer;
+bool smart_ptr<dataType>::operator==(const smart_ptr<dataType>& s){
+    return this->pointer == s.pointer;
 }
 
 template<typename dataType>
-bool smart_ptr<dataType>::operator!=(const smart_prt<dataType>& s){
-    return this->pointer != s->pointer
+bool smart_ptr<dataType>::operator!=(const smart_ptr<dataType>& s){
+    return this->pointer != s.pointer;
 }
 
 template<typename dataType>
@@ -73,18 +73,8 @@ bool smart_ptr<dataType>::operator!=(const dataType*& p){
 }
 
 template<typename dataType>
-bool smart_ptr<dataType>::operator==(nullptr){
-    return pointer == nullptr;
-}
-
-template<typename dataType>
-bool smart_ptr<dataType>::operator!=(nullptr){
-    return pointer != nullptr;
-}
-
-template<typename dataType>
 void smart_ptr<dataType>::copy(const smart_ptr<dataType>& s){
-    this->pointer = s->pointer;
+    this->pointer = s.pointer;
 }
 
 #endif

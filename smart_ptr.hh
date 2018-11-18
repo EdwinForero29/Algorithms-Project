@@ -2,28 +2,26 @@
 #define smart_ptr_hh
 
 template<typename dataType>
-class smart_prt{
+class smart_ptr{
     public:
-    smart_prt();
-    smart_prt(dataType* p);
-    smart_prt(const smart_prt<dataType>& s);
-    smart_prt(smart_prt<dataType>&& s);
-    ~smart_prt();
-    smart_prt& operator=(const smart_prt<dataType>& s);
-    smart_ptr& operator=(smart_prt<dataType>&& s);
+    smart_ptr();
+    smart_ptr(dataType* p);
+    smart_ptr(const smart_ptr<dataType>& s);
+    smart_ptr(smart_ptr<dataType>&& s);
+    ~smart_ptr();
+    smart_ptr& operator=(const smart_ptr<dataType>& s);
+    smart_ptr& operator=(smart_ptr<dataType>&& s);
     dataType& operator*();
     dataType* operator->();
     bool operator!();
-    bool operator==(const smart_prt<dataType>& s);
-    bool operator!=(const smart_prt<dataType>& s);
+    bool operator==(const smart_ptr<dataType>& s);
+    bool operator!=(const smart_ptr<dataType>& s);
     bool operator==(const dataType*& p);
     bool operator!=(const dataType*& p);
-    bool operator==(nullptr);
-    bool operator!=(nullptr);
     
     protected:
     dataType* pointer;
-    void copy(const smart_prt<dataType>& s)
+    void copy(const smart_ptr<dataType>& s);
 };
 
 #include"smart_ptr.cc"
