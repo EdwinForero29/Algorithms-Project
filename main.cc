@@ -2,16 +2,23 @@
 #include"unique_ptr.hh"
 #include<iostream>
 
+class Point{
+    public:
+    Point(int x, int y): x(x), y(y){}
+    int x;
+    int y;
+};
+
 int main(int argc, char const *argv[])
 {
-    int i = 5;
-    unique_ptr<int> up = &i;
-    *up = 6;
-    std::cout << i << std::endl;
+    int *i = new int(5);
+    unique_ptr<int> up = i;
+    (*up)++;
+    std::cout << *i << std::endl;
 
-    char ch = 'a';
-    shared_ptr<char> sp(&ch);
-    ch = 'b';
+    char *ch = new char('a');
+    shared_ptr<char> sp(ch);
+    *ch = 'b';
     std::cout << *sp << std::endl;
 
 //    unique_ptr<int> up2 = up;
@@ -19,5 +26,16 @@ int main(int argc, char const *argv[])
     *sp2 = 'c';
     std::cout << ch << std::endl;
 
+    shared_ptr<char> sp3(sp2);
+    *sp = 'd';
+    std::cout << *sp3 << std::endl;
+
+    unique_ptr<bool> up2 = new bool(false);
+    std::cout << *up2 << std::endl;
+
+    shared_ptr<Point> sp4 = new Point(1,2);
+    shared_ptr<Point> sp5 = sp4;
+    sp5->x = 3;
+    std::cout << sp4->x << std::endl;
     return 0;
 }
