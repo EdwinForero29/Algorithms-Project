@@ -38,6 +38,12 @@ smart_ptr<dataType>& smart_ptr<dataType>::operator=(smart_ptr<dataType>&& s){
 }
 
 template<typename dataType>
+smart_ptr<dataType>& smart_ptr<dayaType>::operator=(dataType* p){
+    pointer = p;
+    return *this;
+}
+
+template<typename dataType>
 dataType& smart_ptr<dataType>::operator*(){
     return *pointer;
 }

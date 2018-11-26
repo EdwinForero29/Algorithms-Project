@@ -2,14 +2,13 @@
 
 template<typename dataType>
 shared_ptr<dataType>::shared_ptr(){
-    pointer = nullptr;
+    this->pointer = nullptr;
     count = new unsigned;
-    *count = 1;
 }
 
 template<typename dataType>
 shared_ptr<dataType>::shared_ptr(dataType* p){
-    pointer = p;
+    this->pointer = p;
     count = new unsigned;
     *count = 1;
 }
@@ -26,8 +25,9 @@ shared_ptr<dataType>::shared_ptr(shared_ptr<dataType>&& s){
 
 template<typename dataType>
 shared_ptr<dataType>::~shared_ptr(){
-    pointer = nullptr;
+    if(*count == 1) delete this->pointer;
     (*count)--;
+    this->pointer = nullptr;
     count = nullptr;
 }
 
@@ -44,7 +44,15 @@ shared_ptr<dataType>& shared_ptr<dataType>::operator=(shared_ptr<dataType>&& s){
 }
 
 template<typename dataType>
-void smart_ptr<dataType>::copy(const smart_ptr<dataType>& s){
+shared_ptr<dataType>& shared_ptr<dataType>::operator=(dataType* p){
+    this->pointer = p;
+    count = new unsigned;
+    *count = 1;
+    return *this;
+}
+
+template<typename dataType>
+void shared_ptr<dataType>::copy(const shared_ptr<dataType>& s){
     this->pointer = s.pointer;
     this->count = s.count;
     if(this->pointer != nullptr) (*count)++;

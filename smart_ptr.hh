@@ -11,6 +11,7 @@ class smart_ptr{
     ~smart_ptr();
     smart_ptr& operator=(const smart_ptr<dataType>& s);
     smart_ptr& operator=(smart_ptr<dataType>&& s);
+    smart_ptr& operator=(dataType* p);
     dataType& operator*();
     dataType* operator->();
     bool operator!();
