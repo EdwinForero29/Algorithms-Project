@@ -39,9 +39,9 @@ unique_ptr<dataType>& unique_ptr<dataType>::operator=(unique_ptr<dataType>&& s){
 }
 
 template<typename dataType>
-void unique_ptr<dataType>::copy(const unique_ptr<dataType>& s){
+void unique_ptr<dataType>::copy(unique_ptr<dataType>& s){
     this->pointer = s.pointer;
-    s.pointer = nullptr;
+    s = nullptr;
 }
 
 #endif
