@@ -9,6 +9,16 @@ class Point{
     int y;
 };
 
+class SomeClass{
+    public:
+    SomeClass(double number): number(number){}
+    bool isNumberZero(){
+        return number == 0;
+    }
+    private:
+    double number;
+};
+
 int main(int argc, char const *argv[])
 {
     int *i = new int(5);
@@ -37,5 +47,10 @@ int main(int argc, char const *argv[])
     shared_ptr<Point> sp5 = sp4;
     sp5->x = 3;
     std::cout << sp4->x << std::endl;
+
+    unique_ptr<SomeClass> up3 = new SomeClass(1);
+    std::cout << up3->isNumberZero() << std::endl;
+    unique_ptr<SomeClass> up4 = new SomeClass(0);
+    std::cout << up4->isNumberZero() << std::endl;
     return 0;
 }
